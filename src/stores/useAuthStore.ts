@@ -111,6 +111,7 @@ interface AuthState {
   isProfileLoading: boolean;
   error: string | null;
   registeredMemberId: string | null;
+  registeredPassword?: string | null;
   showMemberIdModal: boolean;
   
   // Actions
@@ -134,6 +135,7 @@ export const useAuthStore = create<AuthState>()(
       isProfileLoading: false,
       error: null,
       registeredMemberId: null,
+      registeredPassword: null,
       showMemberIdModal: false,
 
       login: async (memberId: string, password: string) => {
@@ -178,6 +180,7 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
             error: null,
             registeredMemberId: memberId,
+            registeredPassword: userData.password,
             showMemberIdModal: true,
           });
           
@@ -199,6 +202,7 @@ export const useAuthStore = create<AuthState>()(
           bankDetails: null,
           error: null,
           registeredMemberId: null,
+          registeredPassword: null,
           showMemberIdModal: false,
         });
       },
@@ -208,7 +212,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       closeMemberIdModal: () => {
-        set({ showMemberIdModal: false, registeredMemberId: null });
+        set({ showMemberIdModal: false, registeredMemberId: null, registeredPassword: null });
       },
 
       fetchProfile: async () => {
