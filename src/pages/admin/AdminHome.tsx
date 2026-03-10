@@ -10,12 +10,12 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Users, 
-  CreditCard, 
-  TrendingUp, 
+import {
+  Users,
+  CreditCard,
+  TrendingUp,
   DollarSign,
-  ArrowUpRight 
+  ArrowUpRight
 } from 'lucide-react';
 import api from '@/lib/api';
 import { formatDateIST } from '@/lib/dateUtils';
@@ -25,6 +25,7 @@ interface DashboardStats {
   activeUsers: number;
   pendingPayoutAmount: number;
   totalPaidAmount: number;
+  currentMonthBV: number;
 }
 
 interface RecentTransaction {
@@ -46,6 +47,7 @@ const AdminHome = () => {
     activeUsers: 0,
     pendingPayoutAmount: 0,
     totalPaidAmount: 0,
+    currentMonthBV: 0,
   });
   const [recentTransactions, setRecentTransactions] = useState<RecentTransaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,10 +56,11 @@ const AdminHome = () => {
     const fetchDashboardData = async () => {
       setIsLoading(true);
       try {
-        const [usersRes, pendingRes, completedRes] = await Promise.all([
+        const [usersRes, pendingRes, completedRes, bvRes] = await Promise.all([
           api.get('/api/v1/admin/users').catch(() => null),
           api.get('/api/v1/admin/payouts', { params: { status: 'pending' } }).catch(() => null),
           api.get('/api/v1/admin/payouts', { params: { status: 'completed' } }).catch(() => null),
+          api.get('/api/v1/admin/company-bv').catch(() => null),
         ]);
 
         // Users
@@ -98,7 +101,12 @@ const AdminHome = () => {
           }));
         }
 
-        setStats({ totalUsers, activeUsers, pendingPayoutAmount, totalPaidAmount });
+        let currentMonthBV = 0;
+        if (bvRes && bvRes.data?.data) {
+          currentMonthBV = bvRes.data.data.currentMonthBV || 0;
+        }
+
+        setStats({ totalUsers, activeUsers, pendingPayoutAmount, totalPaidAmount, currentMonthBV });
         setRecentTransactions(recent);
       } catch (err) {
         console.error('Dashboard fetch error:', err);
@@ -115,6 +123,7 @@ const AdminHome = () => {
     { title: 'Active Users', value: stats.activeUsers.toLocaleString('en-IN'), icon: TrendingUp, color: 'text-chart-1' },
     { title: 'Pending Payouts', value: formatCurrency(stats.pendingPayoutAmount), icon: CreditCard, color: 'text-chart-4' },
     { title: 'Total Paid Out', value: formatCurrency(stats.totalPaidAmount), icon: DollarSign, color: 'text-chart-2' },
+    { title: 'Current Month BV', value: stats.currentMonthBV.toLocaleString('en-IN') + ' BV', icon: TrendingUp, color: 'text-emerald-500' },
   ];
 
   return (
@@ -125,7 +134,7 @@ const AdminHome = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {statCards.map((stat) => (
           <Card key={stat.title} className="border-border">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -192,8 +201,8 @@ const AdminHome = () => {
                             tx.status === 'completed'
                               ? 'bg-primary/20 text-primary border-primary/30'
                               : tx.status === 'pending'
-                              ? 'bg-chart-4/20 text-chart-4 border-chart-4/30'
-                              : 'bg-destructive/20 text-destructive border-destructive/30'
+                                ? 'bg-chart-4/20 text-chart-4 border-chart-4/30'
+                                : 'bg-destructive/20 text-destructive border-destructive/30'
                           }
                         >
                           {tx.status}

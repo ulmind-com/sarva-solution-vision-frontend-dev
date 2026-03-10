@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
     Table,
     TableBody,
@@ -75,9 +77,10 @@ export default function LiveQualifiers() {
                                     <TableRow className="bg-muted/50">
                                         <TableHead>User</TableHead>
                                         <TableHead>Member ID</TableHead>
-                                        <TableHead>Current BV</TableHead>
+                                        <TableHead>Actual BV</TableHead>
                                         <TableHead>Rank</TableHead>
-                                        <TableHead>Join Date</TableHead>
+                                        <TableHead>Qualified On</TableHead>
+                                        <TableHead className="text-right">Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -101,22 +104,29 @@ export default function LiveQualifiers() {
                                                 <TableCell className="font-medium text-primary">{user.memberId}</TableCell>
                                                 <TableCell>
                                                     <Badge variant="default" className="bg-green-500 hover:bg-green-600">
-                                                        {user.currentBV || user.repurchaseBV || '500+'} BV
+                                                        {user.currentBV || user.selfPurchase?.repurchaseWindowBV || '500'} BV
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Badge variant="outline" className="text-xs font-normal">
-                                                        {user.currentRank || user.rank || 'Member'}
+                                                        {user.currentRank || user.user?.currentRank || 'Associate'}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="text-muted-foreground">
-                                                    {user.createdAt ? format(new Date(user.createdAt), 'dd MMM yyyy') : 'N/A'}
+                                                <TableCell className="text-muted-foreground font-medium">
+                                                    {user.qualificationDate ? format(new Date(user.qualificationDate), 'dd MMM yyyy, hh:mm a') : 'N/A'}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Link to={`/admin/users/${user.user?.memberId || user.memberId}`}>
+                                                        <Button variant="ghost" size="icon" className="hover:bg-primary/10 text-primary transition-colors">
+                                                            <Eye className="w-4 h-4" />
+                                                        </Button>
+                                                    </Link>
                                                 </TableCell>
                                             </TableRow>
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                                            <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
                                                 No qualifiers found for the current window.
                                             </TableCell>
                                         </TableRow>

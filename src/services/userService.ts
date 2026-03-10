@@ -125,3 +125,25 @@ export const getRepurchaseHistory = async (page = 1, limit = 10) => {
   });
   return response.data;
 };
+
+// Fetch user's beginner matching bonus status
+export const getBeginnerMatchingStatus = async () => {
+  const response = await api.get('/api/v1/user/bonus/beginner-matching-status');
+  return response.data;
+};
+
+// Fetch user's beginner matching bonus history
+export const getBeginnerMatchingHistory = async (page = 1, limit = 10) => {
+  const response = await api.get('/api/v1/user/bonus/beginner-matching-history', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+// Fetch user's purchase history
+export const getMyPurchases = async (page = 1, limit = 20) => {
+  const response = await api.get('/api/v1/user/purchases', {
+    params: { page, limit }
+  });
+  return response.data;
+};

@@ -215,7 +215,7 @@ const HoverTooltip = ({
   return (
     <div
       className="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-50 pointer-events-none animate-in fade-in-0 zoom-in-95 duration-200"
-      style={{ minWidth: '260px' }}
+      style={{ minWidth: '310px' }}
     >
       <div className="bg-popover/98 backdrop-blur-lg border border-border shadow-2xl rounded-xl overflow-hidden">
         {/* Section A: Identity Header */}
@@ -308,12 +308,16 @@ const HoverTooltip = ({
               {/* Row 2: Business Volume (BV) */}
               <div className="flex flex-col gap-1 py-1.5 px-2 bg-chart-1/10 rounded">
                 <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
-                  <span>THIS MONTH</span>
+                  <span>CURRENT MONTH</span>
                   <span className="font-bold text-chart-1 text-[10px]">{(data.thisMonthLeftLegBV ?? 0).toLocaleString()} BV</span>
                 </div>
                 <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
-                  <span>LIFETIME</span>
-                  <span className="font-bold text-chart-1 text-[10px]">{(data.leftLegBV ?? 0).toLocaleString()} BV</span>
+                  <span>HALF YEARLY</span>
+                  <span className="font-bold text-chart-1 text-[10px]">{(data.halfYearlyLeftLegBV ?? 0).toLocaleString()} BV</span>
+                </div>
+                <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
+                  <span>ANNUAL</span>
+                  <span className="font-bold text-chart-1 text-[10px]">{(data.annualLeftLegBV ?? 0).toLocaleString()} BV</span>
                 </div>
               </div>
 
@@ -349,12 +353,16 @@ const HoverTooltip = ({
               {/* Row 2: Business Volume (BV) */}
               <div className="flex flex-col gap-1 py-1.5 px-2 bg-chart-1/10 rounded">
                 <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
-                  <span>THIS MONTH</span>
+                  <span>CURRENT MONTH</span>
                   <span className="font-bold text-chart-1 text-[10px]">{(data.thisMonthRightLegBV ?? 0).toLocaleString()} BV</span>
                 </div>
                 <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
-                  <span>LIFETIME</span>
-                  <span className="font-bold text-chart-1 text-[10px]">{(data.rightLegBV ?? 0).toLocaleString()} BV</span>
+                  <span>HALF YEARLY</span>
+                  <span className="font-bold text-chart-1 text-[10px]">{(data.halfYearlyRightLegBV ?? 0).toLocaleString()} BV</span>
+                </div>
+                <div className="flex justify-between items-center text-[9px] text-chart-1/80 font-medium tracking-wide">
+                  <span>ANNUAL</span>
+                  <span className="font-bold text-chart-1 text-[10px]">{(data.annualRightLegBV ?? 0).toLocaleString()} BV</span>
                 </div>
               </div>
 

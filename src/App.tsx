@@ -30,7 +30,9 @@ import IncomeReport from "./pages/dashboard/IncomeReport";
 import FastTrackBonus from "./pages/dashboard/FastTrackBonus";
 import StarMatchingBonus from "./pages/dashboard/StarMatchingBonus";
 import RepurchaseBonus from "./pages/dashboard/incomes/RepurchaseBonus";
+import BeginnerMatchingBonus from "./pages/dashboard/incomes/BeginnerMatchingBonus";
 import WelcomeLetter from "./pages/dashboard/WelcomeLetter";
+import PurchaseHistory from "./pages/dashboard/PurchaseHistory";
 import ProductCatalog from "./pages/user/ProductCatalog";
 
 // Admin
@@ -40,11 +42,13 @@ import UserManagement from "./pages/admin/UserManagement";
 import UserWalletList from "./pages/admin/UserWalletList";
 import UserDetail from "./pages/admin/UserDetail";
 import PayoutRequests from "./pages/admin/PayoutRequests";
+import CompanyBvHistory from "./pages/admin/CompanyBvHistory";
 
 // Admin - Bonus Management
 import RepurchasePools from "./pages/admin/bonus/RepurchasePools";
 import LiveQualifiers from "./pages/admin/bonus/LiveQualifiers";
 import GlobalRepurchaseHistory from "./pages/admin/bonus/RepurchaseHistory";
+import AdminBeginnerBonus from "./pages/admin/bonus/AdminBeginnerBonus";
 
 // Admin - Products
 import AddProduct from "./pages/admin/products/AddProduct";
@@ -181,6 +185,13 @@ const AppRoutes = () => {
           </DashboardLayout>
         </ProtectedRoute>
       } />
+      <Route path="/dashboard/incomes/beginner-matching" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <BeginnerMatchingBonus />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
       <Route path="/dashboard/incomes/:type" element={
         <ProtectedRoute>
           <DashboardLayout>
@@ -199,6 +210,13 @@ const AppRoutes = () => {
         <ProtectedRoute>
           <DashboardLayout>
             <WelcomeLetter />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard/purchase-history" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <PurchaseHistory />
           </DashboardLayout>
         </ProtectedRoute>
       } />
@@ -239,6 +257,13 @@ const AppRoutes = () => {
           </AdminLayout>
         </ProtectedRoute>
       } />
+      <Route path="/admin/company-bv-history" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <CompanyBvHistory />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
       <Route path="/admin/payouts" element={
         <ProtectedRoute requireAdmin>
           <AdminLayout>
@@ -266,6 +291,15 @@ const AppRoutes = () => {
         <ProtectedRoute requireAdmin>
           <AdminLayout>
             <GlobalRepurchaseHistory />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* Admin - Beginner Bonus Management */}
+      <Route path="/admin/bonus/beginner/pools" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <AdminBeginnerBonus />
           </AdminLayout>
         </ProtectedRoute>
       } />

@@ -43,6 +43,10 @@ export interface TreeNodeData {
   rightLegBV?: number;
   thisMonthLeftLegBV?: number;
   thisMonthRightLegBV?: number;
+  halfYearlyLeftLegBV?: number;
+  halfYearlyRightLegBV?: number;
+  annualLeftLegBV?: number;
+  annualRightLegBV?: number;
   // Stars
   leftLegStars?: number;
   rightLegStars?: number;

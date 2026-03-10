@@ -29,7 +29,7 @@ import {
   Menu,
   IndianRupee,
   Award,
-  
+
   ShieldCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -51,8 +51,8 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { path: '/dashboard', label: 'Overview', icon: Home },
-  { 
-    label: 'Team Details', 
+  {
+    label: 'Team Details',
     icon: Users,
     children: [
       { path: '/dashboard/genealogy', label: 'Genealogy Tree' },
@@ -61,10 +61,11 @@ const menuItems: MenuItem[] = [
     ]
   },
   { path: '/dashboard/welcome-letter', label: 'Welcome Letter', icon: Award },
+  { path: '/dashboard/purchase-history', label: 'Purchase History', icon: ShoppingBag },
   { path: '/user/products', label: 'Product Store', icon: ShoppingBag },
   { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
-  { 
-    label: 'My Incomes', 
+  {
+    label: 'My Incomes',
     icon: IndianRupee,
     children: [
       { path: '/dashboard/incomes/fast-track', label: 'Fast Track Bonus' },
@@ -82,8 +83,8 @@ const menuItems: MenuItem[] = [
       { path: '/dashboard/incomes/super-performance', label: 'Super Performance Bonus' },
     ]
   },
-  { 
-    label: 'My Profile', 
+  {
+    label: 'My Profile',
     icon: User,
     children: [
       { path: '/dashboard/profile', label: 'Update Profile' },
@@ -133,12 +134,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <div className="min-h-screen bg-background flex">
       {/* Mobile Overlay */}
       {mobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-foreground/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={() => setMobileOpen(false)}
         />
       )}
-      
+
       {/* Sidebar - Glassmorphism */}
       <aside className={cn(
         "fixed lg:static inset-y-0 left-0 z-50 flex flex-col glass border-r transition-all duration-300",
@@ -149,15 +150,15 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="h-16 flex items-center justify-between px-4 border-b border-border/50">
           {!collapsed && (
             <Link to="/dashboard" className="flex items-center gap-2">
-              <img 
-                src="https://res.cloudinary.com/dkgwi1xvx/image/upload/v1769630007/sdfsdf_q4ziyu.png" 
-                alt="Sarva Solution Vision" 
+              <img
+                src="https://res.cloudinary.com/dkgwi1xvx/image/upload/v1769630007/sdfsdf_q4ziyu.png"
+                alt="Sarva Solution Vision"
                 className="h-8 w-auto"
               />
             </Link>
           )}
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             onClick={() => setCollapsed(!collapsed)}
             className="hidden lg:flex hover:bg-accent/50"
@@ -165,7 +166,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </Button>
         </div>
-        
+
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {menuItems.map((item) => {
@@ -223,8 +224,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
-                  isActive 
-                    ? "bg-primary text-primary-foreground shadow-glow-primary" 
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-glow-primary"
                     : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
                 )}
               >
@@ -234,7 +235,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             );
           })}
         </nav>
-        
+
         {/* User Info */}
         {!collapsed && user && (
           <div className="p-4 border-t border-border/50">
@@ -253,22 +254,22 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
         )}
       </aside>
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Bar - Glassmorphism */}
         <header className="h-16 glass border-b border-border/50 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             className="lg:hidden"
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="h-5 w-5" />
           </Button>
-          
+
           <div className="flex-1" />
-          
+
           <div className="flex items-center gap-3">
             {user && (
               <div className="hidden sm:block text-right">
@@ -276,7 +277,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 <p className="text-xs text-muted-foreground">Wallet Balance</p>
               </div>
             )}
-            
+
             {user?.role === 'admin' && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -294,16 +295,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </Tooltip>
             )}
             <ThemeToggle />
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full ring-2 ring-primary/20 hover:ring-primary/40 transition-all duration-200">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={profileImage} alt={userName} />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
-                        {userName.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={profileImage} alt={userName} />
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {userName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 glass" align="end">
@@ -329,7 +330,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </DropdownMenu>
           </div>
         </header>
-        
+
         {/* Page Content with transition */}
         <main className="flex-1 p-4 lg:p-6 overflow-auto">
           <PageTransition key={location.pathname}>

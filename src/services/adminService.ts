@@ -155,3 +155,35 @@ export const triggerRepurchaseDistribution = async () => {
   const response = await api.post('/api/v1/admin/bonus/trigger-repurchase-distribution');
   return response.data;
 };
+
+// ===== Beginner Matching Bonus Management =====
+
+export const getBeginnerBonusPreview = async (month?: number, year?: number) => {
+  const params: Record<string, any> = {};
+  if (month) params.month = month;
+  if (year) params.year = year;
+  const response = await api.get('/api/v1/admin/bonus/beginner-matching/preview', { params });
+  return response.data;
+};
+
+export const distributeBeginnerBonus = async (month?: number, year?: number) => {
+  const data: Record<string, any> = {};
+  if (month) data.month = month;
+  if (year) data.year = year;
+  const response = await api.post('/api/v1/admin/bonus/beginner-matching/distribute', data);
+  return response.data;
+};
+
+export const getBeginnerBonusHistory = async (page = 1, limit = 10) => {
+  const response = await api.get('/api/v1/admin/bonus/beginner-matching/history', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getBeginnerBonusQualifiers = async (month: number, year: number, page = 1, limit = 50) => {
+  const response = await api.get('/api/v1/admin/bonus/beginner-matching/qualifiers', {
+    params: { month, year, page, limit }
+  });
+  return response.data;
+};

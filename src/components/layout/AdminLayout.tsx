@@ -38,7 +38,8 @@ import {
   AlertTriangle,
   LayoutDashboard,
   Gift,
-  Wallet
+  Wallet,
+  TrendingUp
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -67,6 +68,7 @@ const simpleMenuItems: MenuItem[] = [
   { path: '/admin/user-wallets', label: 'User Wallets', icon: Wallet },
   { path: '/admin/payouts', label: 'Payout Requests', icon: CreditCard },
   { path: '/admin/profile', label: 'My Profile', icon: UserCog },
+  { path: '/admin/company-bv-history', label: 'Company BV History', icon: TrendingUp },
 ];
 
 const menuSections: MenuSection[] = [
@@ -97,12 +99,19 @@ const menuSections: MenuSection[] = [
     ],
   },
   {
-    label: 'Bonus Management',
+    label: 'Self Repurchase Bonus',
     icon: Gift,
     items: [
       { path: '/admin/bonus/repurchase/pools', label: 'Repurchase Pools', icon: List },
       { path: '/admin/bonus/repurchase/live', label: 'Live Qualifiers', icon: Users },
       { path: '/admin/bonus/repurchase/history', label: 'Global History', icon: History },
+    ],
+  },
+  {
+    label: 'Beginner Matching Bonus',
+    icon: Gift,
+    items: [
+      { path: '/admin/bonus/beginner/pools', label: 'Manage & Distribute', icon: List },
     ],
   },
 ];

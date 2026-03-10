@@ -26,6 +26,7 @@ interface AdminUser {
   rank: string;
   status: 'active' | 'inactive';
   joiningDate: string;
+  activationDate?: string | null;
 }
 
 interface UsersResponse {
@@ -129,6 +130,7 @@ const UserManagement = () => {
                   <TableHead className="text-muted-foreground">Rank</TableHead>
                   <TableHead className="text-muted-foreground">Status</TableHead>
                   <TableHead className="text-muted-foreground">Joining Date</TableHead>
+                  <TableHead className="text-muted-foreground">Activation Date</TableHead>
                   <TableHead className="text-muted-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -144,12 +146,13 @@ const UserManagement = () => {
                       <TableCell><Skeleton className="h-6 w-16" /></TableCell>
                       <TableCell><Skeleton className="h-6 w-16" /></TableCell>
                       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                       <TableCell><Skeleton className="h-8 w-8" /></TableCell>
                     </TableRow>
                   ))
                 ) : filteredUsers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                       {searchQuery ? 'No users found matching your search' : 'No users found'}
                     </TableCell>
                   </TableRow>
@@ -186,6 +189,9 @@ const UserManagement = () => {
                       </TableCell>
                       <TableCell className="text-muted-foreground">
                         {formatDate(user.joiningDate)}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {user.activationDate ? formatDate(user.activationDate) : 'N/A'}
                       </TableCell>
                       <TableCell>
                         <Button
