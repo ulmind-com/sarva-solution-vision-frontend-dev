@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { getWalletSummary, getUserTree } from '@/services/userService';
+import { getWalletSummary, getUserTree, getPersonalRepurchaseBV } from '@/services/userService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -23,6 +23,7 @@ const Overview = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [walletData, setWalletData] = useState({ availableBalance: 0, totalEarnings: 0 });
   const [teamData, setTeamData] = useState({ leftTeamCount: 0, rightTeamCount: 0 });
+  const [personalBV, setPersonalBV] = useState(0);
 
   const rank = user?.currentRank || user?.rank || 'Member';
   const userName = user?.fullName?.split(' ')[0] || 'User';
@@ -51,9 +52,10 @@ const Overview = () => {
     const fetchDashboardData = async () => {
       setIsLoading(true);
       try {
-        const [walletRes, treeRes] = await Promise.allSettled([
+        const [walletRes, treeRes, pbvRes] = await Promise.allSettled([
           getWalletSummary(),
           memberId ? getUserTree(memberId) : Promise.resolve(null),
+          getPersonalRepurchaseBV()
         ]);
 
         if (walletRes.status === 'fulfilled' && walletRes.value) {
@@ -70,6 +72,10 @@ const Overview = () => {
             leftTeamCount: t.leftTeamCount || 0,
             rightTeamCount: t.rightTeamCount || 0,
           });
+        }
+
+        if (pbvRes.status === 'fulfilled' && pbvRes.value) {
+          setPersonalBV(pbvRes.value.data || 0);
         }
       } catch (err) {
         console.error('Dashboard fetch error:', err);
@@ -131,7 +137,7 @@ const Overview = () => {
       },
       {
         title: 'Monthly Personal BV',
-        value: `${((user as any)?.thisMonthBV || (user as any)?.selfPurchase?.thisMonthBV || 0).toLocaleString()} BV`,
+        value: `${personalBV.toLocaleString()} BV`,
         change: `Reset every month (${format(new Date(), 'MMMM')})`,
         changeType: 'neutral',
         icon: ShoppingBag

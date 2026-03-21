@@ -211,3 +211,9 @@ export const getBeginnerBonusQualifiers = async (month: number, year: number, pa
   });
   return response.data;
 };
+
+// Fetch Tree BV Summary for a specific user (Admin)
+export const getAdminTreeBVSummary = async (memberId: string) => {
+  const response = await api.get(`/api/v1/admin/tree-bv-summary/${memberId}`);
+  return response.data;
+};

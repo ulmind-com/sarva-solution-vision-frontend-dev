@@ -14,6 +14,7 @@ import api from '@/lib/api';
 import { TreeNodeData } from './TreeNode';
 import { D3TreeNodeDatum, EmptyD3Node, ActiveD3Node } from './D3TreeNode';
 import { transformToD3Format } from './treeUtils';
+import TreeBVSummaryCard from './TreeBVSummaryCard';
 
 interface TreeApiResponse {
   data: TreeNodeData;
@@ -534,6 +535,9 @@ const D3GenealogyTree = () => {
           onReset={handleResetToMyNetwork}
         />
       )}
+
+      {/* Tree BV Summary Card */}
+      <TreeBVSummaryCard memberId={currentRootId} isAdmin={false} />
 
       {/* Main Tree Card */}
       <Card className="border-border overflow-hidden">

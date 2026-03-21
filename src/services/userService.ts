@@ -139,3 +139,18 @@ export const getMyPurchases = async (page = 1, limit = 20) => {
   });
   return response.data;
 };
+
+// Fetch Tree BV Summary for the user
+export const getUserTreeBVSummary = async (memberId?: string) => {
+  const url = memberId 
+    ? `/api/v1/user/tree-bv-summary/${memberId}` 
+    : '/api/v1/user/tree-bv-summary';
+  const response = await api.get(url);
+  return response.data;
+};
+
+// Fetch Personal Repurchase BV
+export const getPersonalRepurchaseBV = async () => {
+  const response = await api.get('/api/v1/user/self-repurchase-bonus/personal-bv');
+  return response.data;
+};

@@ -59,6 +59,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import EditUserModal from '@/components/admin/EditUserModal';
 import RejectKYCModal from '@/components/admin/RejectKYCModal';
+import TreeBVSummaryCard from '@/components/genealogy/TreeBVSummaryCard';
 import { toast } from 'sonner';
 
 interface UserDetailData {
@@ -551,6 +552,11 @@ const UserDetail = () => {
                 <p className="text-2xl font-bold mt-2">{user.rightLegBV || 0}</p>
               </CardContent>
             </Card>
+          </div>
+          
+          {/* Tree BV Summary Card */}
+          <div className="mt-6">
+            <TreeBVSummaryCard memberId={memberId} isAdmin={true} />
           </div>
         </TabsContent>
 
