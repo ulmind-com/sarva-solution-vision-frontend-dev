@@ -152,6 +152,27 @@ const menuSections: MenuSection[] = [
       { path: '/admin/bonus/bike-car-fund/pools', label: 'Manage & Distribute', icon: List },
     ],
   },
+  {
+    label: 'House Fund',
+    icon: Gift,
+    items: [
+      { path: '/admin/bonus/house-fund/pools', label: 'Manage & Distribute', icon: List },
+    ],
+  },
+  {
+    label: 'Royalty Fund',
+    icon: Gift,
+    items: [
+      { path: '/admin/bonus/royalty-fund/pools', label: 'Manage & Distribute', icon: List },
+    ],
+  },
+  {
+    label: 'SSVPL Super Bonus',
+    icon: Gift,
+    items: [
+      { path: '/admin/bonus/ssvpl-super-bonus/pools', label: 'Manage & Distribute', icon: List },
+    ],
+  },
 ];
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {

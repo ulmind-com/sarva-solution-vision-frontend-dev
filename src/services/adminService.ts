@@ -414,6 +414,123 @@ export const applyBikeCarFundCredits = async (year: number, month: number) => {
   return response.data;
 };
 
+// ===== House Fund Admin APIs =====
+
+export const getHouseFundLivePool = async () => {
+  const response = await api.get('/api/v1/admin/house-fund/live-pool');
+  return response.data;
+};
+
+export const getHouseFundPools = async (page = 1, limit = 12) => {
+  const response = await api.get('/api/v1/admin/house-fund/pools', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getHouseFundPoolDetail = async (cycleYear: number, cycleNumber: number) => {
+  const response = await api.get(`/api/v1/admin/house-fund/pools/${cycleYear}/${cycleNumber}`);
+  return response.data;
+};
+
+export const getActiveHouseFundUsers = async () => {
+  const response = await api.get('/api/v1/admin/house-fund/users');
+  return response.data;
+};
+
+export const getHouseFundUserDetail = async (memberId: string) => {
+  const response = await api.get(`/api/v1/admin/house-fund/users/${memberId}`);
+  return response.data;
+};
+
+export const triggerHouseFund = async (cycleYear: number, cycleNumber: number) => {
+  const response = await api.post('/api/v1/admin/house-fund/trigger', { cycleYear, cycleNumber });
+  return response.data;
+};
+
+export const applyHouseFundCredits = async (cycleYear: number, cycleNumber: number) => {
+  const response = await api.post('/api/v1/admin/house-fund/apply-credits', { cycleYear, cycleNumber });
+  return response.data;
+};
+
+// ===== Royalty Fund Admin APIs =====
+
+export const getRoyaltyFundLivePool = async () => {
+  const response = await api.get('/api/v1/admin/royalty-fund/live-pool');
+  return response.data;
+};
+
+export const getRoyaltyFundPools = async (page = 1, limit = 12) => {
+  const response = await api.get('/api/v1/admin/royalty-fund/pools', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getRoyaltyFundPoolDetail = async (cycleYear: number) => {
+  const response = await api.get(`/api/v1/admin/royalty-fund/pools/${cycleYear}`);
+  return response.data;
+};
+
+export const getActiveRoyaltyFundUsers = async () => {
+  const response = await api.get('/api/v1/admin/royalty-fund/users');
+  return response.data;
+};
+
+export const getRoyaltyFundUserDetail = async (memberId: string) => {
+  const response = await api.get(`/api/v1/admin/royalty-fund/users/${memberId}`);
+  return response.data;
+};
+
+export const triggerRoyaltyFund = async (cycleYear: number) => {
+  const response = await api.post('/api/v1/admin/royalty-fund/trigger', { cycleYear });
+  return response.data;
+};
+
+export const applyRoyaltyFundCredits = async (cycleYear: number) => {
+  const response = await api.post('/api/v1/admin/royalty-fund/apply-credits', { cycleYear });
+  return response.data;
+};
+
+// ===== SSVPL Super Bonus Admin APIs =====
+
+export const getSsvplSuperBonusLivePool = async () => {
+  const response = await api.get('/api/v1/admin/ssvpl-super-bonus/live-pool');
+  return response.data;
+};
+
+export const getSsvplSuperBonusPools = async (page = 1, limit = 12) => {
+  const response = await api.get('/api/v1/admin/ssvpl-super-bonus/pools', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getSsvplSuperBonusPoolDetail = async (cycleYear: number) => {
+  const response = await api.get(`/api/v1/admin/ssvpl-super-bonus/pools/${cycleYear}`);
+  return response.data;
+};
+
+export const getActiveSsvplSuperBonusUsers = async () => {
+  const response = await api.get('/api/v1/admin/ssvpl-super-bonus/users');
+  return response.data;
+};
+
+export const getSsvplSuperBonusUserDetail = async (memberId: string) => {
+  const response = await api.get(`/api/v1/admin/ssvpl-super-bonus/users/${memberId}`);
+  return response.data;
+};
+
+export const triggerSsvplSuperBonus = async (cycleYear: number) => {
+  const response = await api.post('/api/v1/admin/ssvpl-super-bonus/trigger', { cycleYear });
+  return response.data;
+};
+
+export const applySsvplSuperBonusCredits = async (cycleYear: number) => {
+  const response = await api.post('/api/v1/admin/ssvpl-super-bonus/apply-credits', { cycleYear });
+  return response.data;
+};
+
 // Fetch Tree BV Summary for a specific user (Admin)
 export const getAdminTreeBVSummary = async (memberId: string) => {
   const response = await api.get(`/api/v1/admin/tree-bv-summary/${memberId}`);

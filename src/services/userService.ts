@@ -264,6 +264,78 @@ export const getPublicBikeCarFundStatus = async (memberId: string) => {
   return response.data;
 };
 
+// ===== House Fund User APIs =====
+
+export const getHouseFundStatus = async () => {
+  const response = await api.get('/api/v1/user/house-fund/status');
+  return response.data;
+};
+
+export const getHouseFundHistory = async (page = 1, limit = 10) => {
+  const response = await api.get('/api/v1/user/house-fund/history', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getHouseFundLiveEstimate = async () => {
+  const response = await api.get('/api/v1/user/house-fund/live-estimate');
+  return response.data;
+};
+
+export const getPublicHouseFundStatus = async (memberId: string) => {
+  const response = await api.get(`/api/v1/user/house-fund/status/${memberId}`);
+  return response.data;
+};
+
+// ===== Royalty Fund User APIs =====
+
+export const getRoyaltyFundStatus = async () => {
+  const response = await api.get('/api/v1/user/royalty-fund/status');
+  return response.data;
+};
+
+export const getRoyaltyFundHistory = async (page = 1, limit = 10) => {
+  const response = await api.get('/api/v1/user/royalty-fund/history', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getRoyaltyFundLiveEstimate = async () => {
+  const response = await api.get('/api/v1/user/royalty-fund/live-estimate');
+  return response.data;
+};
+
+export const getPublicRoyaltyFundStatus = async (memberId: string) => {
+  const response = await api.get(`/api/v1/user/royalty-fund/status/${memberId}`);
+  return response.data;
+};
+
+// ===== SSVPL Super Bonus User APIs =====
+
+export const getSsvplSuperBonusStatus = async () => {
+  const response = await api.get('/api/v1/user/ssvpl-super-bonus/status');
+  return response.data;
+};
+
+export const getSsvplSuperBonusHistory = async (page = 1, limit = 10) => {
+  const response = await api.get('/api/v1/user/ssvpl-super-bonus/history', {
+    params: { page, limit }
+  });
+  return response.data;
+};
+
+export const getSsvplSuperBonusLiveEstimate = async () => {
+  const response = await api.get('/api/v1/user/ssvpl-super-bonus/live-estimate');
+  return response.data;
+};
+
+export const getPublicSsvplSuperBonusStatus = async (memberId: string) => {
+  const response = await api.get(`/api/v1/user/ssvpl-super-bonus/status/${memberId}`);
+  return response.data;
+};
+
 // Fetch user's purchase history
 export const getMyPurchases = async (page = 1, limit = 20) => {
   const response = await api.get('/api/v1/user/purchases', {

@@ -36,6 +36,9 @@ import LeadershipBonus from "./pages/dashboard/incomes/LeadershipBonus";
 import TourFund from "./pages/dashboard/incomes/TourFund";
 import HealthEducationBonus from "./pages/dashboard/incomes/HealthEducationBonus";
 import BikeCarFund from "./pages/dashboard/incomes/BikeCarFund";
+import HouseFund from "./pages/dashboard/incomes/HouseFund";
+import RoyaltyFund from "./pages/dashboard/incomes/RoyaltyFund";
+import SsvplSuperBonus from "./pages/dashboard/incomes/SsvplSuperBonus";
 import WelcomeLetter from "./pages/dashboard/WelcomeLetter";
 import PurchaseHistory from "./pages/dashboard/PurchaseHistory";
 import ProductCatalog from "./pages/user/ProductCatalog";
@@ -60,6 +63,9 @@ import AdminLeadershipBonus from "./pages/admin/bonus/AdminLeadershipBonus";
 import AdminTourFund from "./pages/admin/bonus/AdminTourFund";
 import AdminHealthEducationBonus from "./pages/admin/bonus/AdminHealthEducationBonus";
 import AdminBikeCarFund from "./pages/admin/bonus/AdminBikeCarFund";
+import AdminHouseFund from "./pages/admin/bonus/AdminHouseFund";
+import AdminRoyaltyFund from "./pages/admin/bonus/AdminRoyaltyFund";
+import AdminSsvplSuperBonus from "./pages/admin/bonus/AdminSsvplSuperBonus";
 import WalletAdjustment from "./pages/admin/WalletAdjustment";
 
 // Admin - Products
@@ -229,6 +235,27 @@ const AppRoutes = () => {
         <ProtectedRoute>
           <DashboardLayout>
             <HealthEducationBonus />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard/incomes/ssvpl-super-bonus" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <SsvplSuperBonus />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard/incomes/royalty-fund-bonus" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <RoyaltyFund />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard/incomes/house-fund-bonus" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <HouseFund />
           </DashboardLayout>
         </ProtectedRoute>
       } />
@@ -406,6 +433,33 @@ const AppRoutes = () => {
         <ProtectedRoute requireAdmin>
           <AdminLayout>
             <AdminBikeCarFund />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* Admin - House Fund Management */}
+      <Route path="/admin/bonus/house-fund/pools" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <AdminHouseFund />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* Admin - Royalty Fund Management */}
+      <Route path="/admin/bonus/royalty-fund/pools" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <AdminRoyaltyFund />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* Admin - SSVPL Super Bonus Management */}
+      <Route path="/admin/bonus/ssvpl-super-bonus/pools" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <AdminSsvplSuperBonus />
           </AdminLayout>
         </ProtectedRoute>
       } />

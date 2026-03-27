@@ -78,9 +78,9 @@ const menuItems: MenuItem[] = [
       { path: '/dashboard/incomes/tour-fund-bonus', label: 'Tour Fund' },
       { path: '/dashboard/incomes/health-education-bonus', label: 'Health & Education Bonus' },
       { path: '/dashboard/incomes/bike-car-fund-bonus', label: 'Bike & Car Fund' },
-      { path: '/dashboard/incomes/house-fund', label: 'House Fund' },
-      { path: '/dashboard/incomes/royalty-fund', label: 'Royalty Fund' },
-      { path: '/dashboard/incomes/super-performance', label: 'Super Performance Bonus' },
+      { path: '/dashboard/incomes/house-fund-bonus', label: 'House Fund' },
+      { path: '/dashboard/incomes/royalty-fund-bonus', label: 'Royalty Fund' },
+      { path: '/dashboard/incomes/ssvpl-super-bonus', label: 'SSVPL Super Bonus' },
     ]
   },
   {
