@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Store, Package, ShoppingCart, LogOut, User, FileText } from 'lucide-react';
+import { Store, Package, ShoppingCart, LogOut, User, FileText, IndianRupee } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFranchiseAuthStore } from '@/stores/useFranchiseAuthStore';
@@ -162,6 +162,18 @@ const FranchiseDashboard = () => {
                 </div>
                 <CardTitle>Order History</CardTitle>
                 <CardDescription>View your past orders and invoices</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link to="/franchise/payout">
+            <Card className="hover:border-teal-500/50 transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <div className="h-12 w-12 rounded-lg bg-teal-500/10 flex items-center justify-center mb-2">
+                  <IndianRupee className="h-6 w-6 text-teal-500" />
+                </div>
+                <CardTitle>Repurchase Payouts</CardTitle>
+                <CardDescription>View your monthly 10% BV payout history</CardDescription>
               </CardHeader>
             </Card>
           </Link>

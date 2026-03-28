@@ -92,6 +92,7 @@ const menuSections: MenuSection[] = [
       { path: '/admin/franchise/sale', label: 'Sale to Franchise', icon: ShoppingCart },
       { path: '/admin/franchise/history', label: 'Sale History', icon: History },
       { path: '/admin/franchise/requests', label: 'Product Requests', icon: FileText },
+      { path: '/admin/franchise/payouts', label: 'Repurchase Payouts', icon: CreditCard },
     ],
   },
   {

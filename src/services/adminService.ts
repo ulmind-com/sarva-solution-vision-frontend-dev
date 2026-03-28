@@ -536,3 +536,25 @@ export const getAdminTreeBVSummary = async (memberId: string) => {
   const response = await api.get(`/api/v1/admin/tree-bv-summary/${memberId}`);
   return response.data;
 };
+
+// ===== Admin Franchise Payout APIs =====
+
+export const getAdminFranchisePayoutList = async (page = 1, limit = 10, status?: string) => {
+  const params: Record<string, unknown> = { page, limit };
+  if (status) params.status = status;
+  const response = await api.get('/api/v1/admin/franchise-payout/list', { params });
+  return response.data;
+};
+
+export const getAdminFranchiseLiveBV = async (hasBvOnly = true) => {
+  const response = await api.get('/api/v1/admin/franchise-payout/live-bv', {
+    params: { hasBvOnly }
+  });
+  return response.data;
+};
+
+export const markFranchisePayoutPaid = async (id: string, transactionRef: string) => {
+  const response = await api.patch(`/api/v1/admin/franchise-payout/${id}/mark-paid`, { transactionRef });
+  return response.data;
+};
+

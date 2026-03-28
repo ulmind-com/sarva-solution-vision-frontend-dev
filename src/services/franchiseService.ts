@@ -110,4 +110,24 @@ export const getFranchiseSalesHistory = async (page = 1, limit = 20) => {
   return { sales: [], pagination: { currentPage: 1, totalPages: 1, hasNextPage: false, hasPrevPage: false } };
 };
 
+// ===== Franchise Payout APIs =====
+
+/**
+ * Get Franchise Payout History
+ * API: GET /api/v1/franchise/payout/history
+ */
+export const getFranchisePayoutHistory = async () => {
+  const response = await franchiseApi.get('/api/v1/franchise/payout/history');
+  return response.data;
+};
+
+/**
+ * Get Live BV accumulations for this month
+ * API: GET /api/v1/franchise/payout/live-bv
+ */
+export const getFranchiseLiveBV = async () => {
+  const response = await franchiseApi.get('/api/v1/franchise/payout/live-bv');
+  return response.data;
+};
+
 export default franchiseApi;
