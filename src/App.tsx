@@ -52,6 +52,16 @@ import WalletLogs from "./pages/admin/WalletLogs";
 import UserDetail from "./pages/admin/UserDetail";
 import PayoutRequests from "./pages/admin/PayoutRequests";
 import CompanyBvHistory from "./pages/admin/CompanyBvHistory";
+import FranchiseSaleLogs from "./pages/admin/FranchiseSaleLogs";
+
+// Admin - Master Franchise Management
+import MasterFranchiseManagement from "./pages/admin/master/MasterFranchiseManagement";
+import AdminMasterPayouts from "./pages/admin/master/MasterPayouts";
+
+// Franchise - Master Portal
+import SubFranchiseNetwork from "./pages/franchise/master/SubFranchiseNetwork";
+import MasterStockTransfer from "./pages/franchise/master/MasterStockTransfer";
+import FranchiseMasterPayouts from "./pages/franchise/master/MasterPayouts";
 
 // Admin - Bonus Management
 import RepurchasePools from "./pages/admin/bonus/RepurchasePools";
@@ -82,6 +92,7 @@ import SaleToFranchise from "./pages/admin/franchise/SaleToFranchise";
 import SaleHistory from "./pages/admin/franchise/SaleHistory";
 import FranchiseRequests from "./pages/admin/franchise/FranchiseRequests";
 import AdminFranchisePayout from "./pages/admin/franchise/AdminFranchisePayout";
+import FranchiseInventoryView from "./pages/admin/franchise/FranchiseInventoryView";
 
 // Franchise Portal
 import FranchiseDashboard from "./pages/franchise/FranchiseDashboard";
@@ -490,6 +501,13 @@ const AppRoutes = () => {
           </AdminLayout>
         </ProtectedRoute>
       } />
+      <Route path="/admin/franchise-sale-logs" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <FranchiseSaleLogs />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
 
       {/* Admin - Franchise Management */}
       <Route path="/admin/franchise/add" element={
@@ -503,6 +521,13 @@ const AppRoutes = () => {
         <ProtectedRoute requireAdmin>
           <AdminLayout>
             <FranchiseList />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/franchise/inventory/:franchiseId" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <FranchiseInventoryView />
           </AdminLayout>
         </ProtectedRoute>
       } />
@@ -535,6 +560,22 @@ const AppRoutes = () => {
         </ProtectedRoute>
       } />
 
+      {/* Admin - Master Franchise Features */}
+      <Route path="/admin/master-franchises" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <MasterFranchiseManagement />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/master-payouts" element={
+        <ProtectedRoute requireAdmin>
+          <AdminLayout>
+            <AdminMasterPayouts />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
       {/* Franchise Portal Routes */}
       <Route path="/franchise/dashboard" element={<FranchiseDashboard />} />
       <Route path="/franchise/inventory" element={<FranchiseInventory />} />
@@ -542,6 +583,11 @@ const AppRoutes = () => {
       <Route path="/franchise/request-stock" element={<FranchiseRequestStock />} />
       <Route path="/franchise/order-history" element={<FranchiseOrderHistory />} />
       <Route path="/franchise/payout" element={<FranchisePayout />} />
+
+      {/* Franchise Portal (Master Features) */}
+      <Route path="/franchise/master-network" element={<SubFranchiseNetwork />} />
+      <Route path="/franchise/master-stock-transfer" element={<MasterStockTransfer />} />
+      <Route path="/franchise/master-payouts" element={<FranchiseMasterPayouts />} />
 
       {/* 404 */}
       <Route path="*" element={<NotFound />} />

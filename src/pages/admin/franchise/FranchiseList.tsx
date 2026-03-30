@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Store, Search, Loader2, RefreshCw, Ban, Phone, MapPin, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Store, Search, Loader2, RefreshCw, Ban, Phone, MapPin, MoreHorizontal, Pencil, Trash2, Eye, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -26,6 +26,7 @@ interface Franchise {
   city?: string;
   status: 'active' | 'inactive' | 'blocked';
   isBlocked: boolean;
+  isMaster?: boolean;
   shopAddress?: {
     street: string;
     pincode: string;
@@ -285,11 +286,18 @@ const FranchiseList = () => {
                   <TableRow key={franchise._id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Store className="h-5 w-5 text-primary" />
+                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${franchise.isMaster ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20' : 'bg-primary/10 text-primary'}`}>
+                          {franchise.isMaster ? <Trophy className="h-5 w-5" /> : <Store className="h-5 w-5" />}
                         </div>
-                        <div>
-                          <p className="font-medium text-foreground">{franchise.shopName || 'Unnamed Shop'}</p>
+                        <div className="flex flex-col items-start gap-1">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-foreground line-clamp-1 max-w-[150px]">{franchise.shopName || 'Unnamed Shop'}</p>
+                            {franchise.isMaster && (
+                                <Badge variant="outline" className="text-[9px] h-4 px-1 bg-yellow-500/10 text-yellow-600 border-yellow-500/20 uppercase tracking-widest leading-none">
+                                  Master
+                                </Badge>
+                            )}
+                          </div>
                           <p className="text-xs font-mono text-muted-foreground">{franchise.vendorId || '-'}</p>
                         </div>
                       </div>
@@ -325,6 +333,10 @@ const FranchiseList = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => navigate(`/admin/franchise/inventory/${franchise._id}`)}>
+                            <Eye className="h-4 w-4 mr-2" />
+                            View Inventory
+                          </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEditModal(franchise)}>
                             <Pencil className="h-4 w-4 mr-2" />
                             Edit

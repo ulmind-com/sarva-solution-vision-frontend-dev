@@ -40,7 +40,10 @@ import {
   Gift,
   Wallet,
   TrendingUp,
-  Clock
+  Clock,
+  Receipt,
+  Trophy,
+  Network
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -72,6 +75,7 @@ const simpleMenuItems: MenuItem[] = [
   { path: '/admin/payouts', label: 'Payout Requests', icon: CreditCard },
   { path: '/admin/profile', label: 'My Profile', icon: UserCog },
   { path: '/admin/company-bv-history', label: 'Company BV History', icon: TrendingUp },
+  { path: '/admin/franchise-sale-logs', label: 'Franchise Sale Logs', icon: Receipt },
 ];
 
 const menuSections: MenuSection[] = [
@@ -93,6 +97,14 @@ const menuSections: MenuSection[] = [
       { path: '/admin/franchise/history', label: 'Sale History', icon: History },
       { path: '/admin/franchise/requests', label: 'Product Requests', icon: FileText },
       { path: '/admin/franchise/payouts', label: 'Repurchase Payouts', icon: CreditCard },
+    ],
+  },
+  {
+    label: 'Master Franchise HQ',
+    icon: Trophy,
+    items: [
+      { path: '/admin/master-franchises', label: 'Network Mapping', icon: Network },
+      { path: '/admin/master-payouts', label: 'Master Payouts', icon: Receipt },
     ],
   },
   {

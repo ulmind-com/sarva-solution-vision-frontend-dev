@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Store, Package, ShoppingCart, LogOut, User, FileText, IndianRupee } from 'lucide-react';
+import { Store, Package, ShoppingCart, LogOut, User, FileText, IndianRupee, Trophy, Network, Truck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFranchiseAuthStore } from '@/stores/useFranchiseAuthStore';
 import { toast } from 'sonner';
+import api from '@/lib/api';
 
 const FranchiseDashboard = () => {
   const navigate = useNavigate();
-  const { franchise, isAuthenticated, logout } = useFranchiseAuthStore();
+  const { franchise, franchiseToken, isAuthenticated, logout } = useFranchiseAuthStore();
+  const [isMaster, setIsMaster] = useState(false);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -22,6 +24,21 @@ const FranchiseDashboard = () => {
     toast.success('Logged out successfully');
     navigate('/franchise/login');
   };
+
+  useEffect(() => {
+    const fetchMasterStatus = async () => {
+      if (!isAuthenticated || !franchiseToken) return;
+      try {
+        const res = await api.get('/api/v1/franchise/master-portal/network', {
+          headers: { Authorization: `Bearer ${franchiseToken}` }
+        });
+        setIsMaster(res.data?.data?.isMaster || false);
+      } catch (error) {
+        console.log("Not a master franchise");
+      }
+    };
+    fetchMasterStatus();
+  }, [isAuthenticated, franchiseToken]);
 
   if (!isAuthenticated || !franchise) {
     return null;
@@ -177,6 +194,47 @@ const FranchiseDashboard = () => {
               </CardHeader>
             </Card>
           </Link>
+          
+          {/* Master Franchise Features  */}
+          {isMaster && (
+            <>
+              <Link to="/franchise/master-network">
+                <Card className="hover:border-yellow-500/50 transition-colors cursor-pointer h-full border border-yellow-500/20 bg-yellow-500/5">
+                  <CardHeader>
+                    <div className="h-12 w-12 rounded-lg bg-yellow-500/10 flex items-center justify-center mb-2">
+                      <Network className="h-6 w-6 text-yellow-500" />
+                    </div>
+                    <CardTitle>Sub-Network</CardTitle>
+                    <CardDescription>Manage your subordinate franchises (Master Only)</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+              
+              <Link to="/franchise/master-stock-transfer">
+                <Card className="hover:border-indigo-500/50 transition-colors cursor-pointer h-full border border-indigo-500/20 bg-indigo-500/5">
+                  <CardHeader>
+                    <div className="h-12 w-12 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-2">
+                      <Truck className="h-6 w-6 text-indigo-500" />
+                    </div>
+                    <CardTitle>Distribute Stock</CardTitle>
+                    <CardDescription>Transfer products to sub-franchises (Master Only)</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Link to="/franchise/master-payouts">
+                <Card className="hover:border-emerald-500/50 transition-colors cursor-pointer h-full border border-emerald-500/20 bg-emerald-500/5">
+                  <CardHeader>
+                    <div className="h-12 w-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2">
+                      <Trophy className="h-6 w-6 text-emerald-500" />
+                    </div>
+                    <CardTitle>Master Earnings</CardTitle>
+                    <CardDescription>View +5% differentials and overrides (Master Only)</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Placeholder Notice */}
