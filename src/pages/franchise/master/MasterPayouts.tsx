@@ -282,7 +282,7 @@ const FranchiseMasterPayouts = () => {
                                             <TableCell className="lg:pl-6">
                                                 <div className="flex flex-col gap-1 items-start">
                                                     <Badge className={isSelf ? "bg-blue-100 text-blue-800 border-blue-200" : "bg-purple-100 text-purple-800 border-purple-200"}>
-                                                        {isSelf ? "Extra +5% BV / +₹10 PV" : "Sub-Network Override"}
+                                                        {isSelf ? "Own Differential (+15% BV / +₹50 PV)" : "Sub-Network Override"}
                                                     </Badge>
                                                     {!isSelf && p.sourceFranchiseId && (
                                                         <span className="text-xs text-muted-foreground mt-1">

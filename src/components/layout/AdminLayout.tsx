@@ -43,7 +43,8 @@ import {
   Clock,
   Receipt,
   Trophy,
-  Network
+  Network,
+  Banknote
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -73,6 +74,7 @@ const simpleMenuItems: MenuItem[] = [
   { path: '/admin/wallet-logs', label: 'Wallet Logs', icon: Clock },
   { path: '/admin/wallet-adjustments', label: 'Wallet Adjustments', icon: Wallet },
   { path: '/admin/payouts', label: 'Payout Requests', icon: CreditCard },
+  { path: '/admin/franchise-payout-requests', label: 'Franchise Payout Requests', icon: Banknote },
   { path: '/admin/profile', label: 'My Profile', icon: UserCog },
   { path: '/admin/company-bv-history', label: 'Company BV History', icon: TrendingUp },
   { path: '/admin/franchise-sale-logs', label: 'Franchise Sale Logs', icon: Receipt },

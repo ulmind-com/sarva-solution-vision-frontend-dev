@@ -109,10 +109,10 @@ export default function AdminFranchisePayout() {
         }
     };
 
-    // Filter payouts by type
-    const filteredPayouts = typeFilter === "all"
-        ? payouts
-        : payouts.filter(p => (p.payoutType || 'BV') === typeFilter);
+    // Filter payouts by type AND exclude overridden Master entries (they have ₹0 payout)
+    const filteredPayouts = payouts
+        .filter(p => p.status !== 'overridden')
+        .filter(p => typeFilter === "all" ? true : (p.payoutType || 'BV') === typeFilter);
 
     return (
         <div className="space-y-6">
@@ -125,7 +125,7 @@ export default function AdminFranchisePayout() {
                     <div>
                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-teal-950 dark:text-teal-50">Franchise Payouts</h1>
                         <p className="text-teal-700 dark:text-teal-400 mt-1">
-                            Manage monthly <strong>BV (10% Repurchase)</strong> &amp; <strong>PV (₹40/PV 1st Purchase)</strong> payouts for all franchises.
+                            Manage monthly <strong>BV & PV</strong> payouts for all franchises. Normal: <strong>10% BV / ₹40 PV</strong>. Master: <strong>15% BV / ₹50 PV</strong>.
                         </p>
                     </div>
                 </div>
@@ -161,12 +161,12 @@ export default function AdminFranchisePayout() {
                                                 <span className="flex items-center justify-end gap-1"><BarChart3 className="h-3 w-3 text-teal-500" /> This Month BV</span>
                                             </TableHead>
                                             <TableHead className="text-right">Lifetime BV</TableHead>
-                                            <TableHead className="text-right text-teal-600">BV Payout (10%)</TableHead>
+                                            <TableHead className="text-right text-teal-600">BV Payout</TableHead>
                                             <TableHead className="text-right">
                                                 <span className="flex items-center justify-end gap-1"><ShoppingBag className="h-3 w-3 text-purple-500" /> This Month PV</span>
                                             </TableHead>
                                             <TableHead className="text-right">Lifetime PV</TableHead>
-                                            <TableHead className="text-right text-purple-600">PV Payout (₹40)</TableHead>
+                                            <TableHead className="text-right text-purple-600">PV Payout</TableHead>
                                             <TableHead>Last Updated</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -180,17 +180,27 @@ export default function AdminFranchisePayout() {
                                         ) : liveStates.length > 0 ? (
                                             liveStates.map((s, i) => {
                                                 const franchise = s.franchiseId || {};
+                                                const isMaster = s.isMaster || false;
+                                                const bvRate = isMaster ? 0.15 : 0.10;
+                                                const pvRate = isMaster ? 50 : 40;
                                                 const monthBv = s.currentMonthRepurchaseBv || 0;
                                                 const lifeBv = s.lifetimeRepurchaseBv || 0;
-                                                const projectedBv = monthBv * 0.1;
+                                                const projectedBv = monthBv * bvRate;
                                                 const monthPv = s.currentMonthFirstPurchasePv || 0;
                                                 const lifePv = s.lifetimeFirstPurchasePv || 0;
-                                                const projectedPv = monthPv * 40;
+                                                const projectedPv = monthPv * pvRate;
                                                 return (
                                                     <TableRow key={i} className="hover:bg-teal-50/50 dark:hover:bg-teal-900/20">
                                                         <TableCell>
-                                                            <div className="font-medium">{franchise.shopName || franchise.name}</div>
-                                                            <div className="text-xs text-muted-foreground">{franchise.name}</div>
+                                                            <div className="flex items-center gap-2">
+                                                                <div>
+                                                                    <div className="font-medium">{franchise.shopName || franchise.name}</div>
+                                                                    <div className="text-xs text-muted-foreground">{franchise.name}</div>
+                                                                </div>
+                                                                {isMaster && (
+                                                                    <Badge className="bg-amber-500/10 text-amber-700 border-amber-400 text-[10px] px-1.5 py-0">MASTER</Badge>
+                                                                )}
+                                                            </div>
                                                         </TableCell>
                                                         <TableCell className="text-sm font-mono">{franchise.vendorId}</TableCell>
                                                         <TableCell className="text-sm text-muted-foreground">
@@ -201,13 +211,15 @@ export default function AdminFranchisePayout() {
                                                         <TableCell className="text-right font-bold text-lg">{monthBv.toLocaleString()}</TableCell>
                                                         <TableCell className="text-right text-muted-foreground">{lifeBv.toLocaleString()}</TableCell>
                                                         <TableCell className="text-right text-teal-600 font-bold text-base">
-                                                            ₹{projectedBv.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+                                                            <div>₹{projectedBv.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</div>
+                                                            <div className="text-[10px] font-normal text-muted-foreground">{isMaster ? '15%' : '10%'}</div>
                                                         </TableCell>
                                                         {/* PV Columns */}
                                                         <TableCell className="text-right font-bold text-lg text-purple-700 dark:text-purple-400">{monthPv.toLocaleString()}</TableCell>
                                                         <TableCell className="text-right text-muted-foreground">{lifePv.toLocaleString()}</TableCell>
                                                         <TableCell className="text-right text-purple-600 font-bold text-base">
-                                                            ₹{projectedPv.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+                                                            <div>₹{projectedPv.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</div>
+                                                            <div className="text-[10px] font-normal text-muted-foreground">₹{isMaster ? '50' : '40'}/PV</div>
                                                         </TableCell>
                                                         <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
                                                             {s.lastUpdated ? format(new Date(s.lastUpdated), 'dd MMM yyyy, hh:mm a') : '—'}

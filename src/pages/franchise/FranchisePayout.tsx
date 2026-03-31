@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { TrendingUp, IndianRupee, CheckCircle2, Clock, RefreshCw, Wallet, BarChart3, ShoppingBag, Zap } from "lucide-react";
+import { TrendingUp, IndianRupee, CheckCircle2, Clock, RefreshCw, Wallet, BarChart3, ShoppingBag, Zap, Trophy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Link } from "react-router-dom";
 import { getFranchisePayoutHistory, getFranchiseLiveBV } from "@/services/franchiseService";
 
 export default function FranchisePayout() {
@@ -52,6 +53,11 @@ export default function FranchisePayout() {
         }
     };
 
+    // --- Master/Normal detection ---
+    const isMaster = liveData?.isMaster || false;
+    const bvRatePercent = liveData?.bvRatePercent || 10;
+    const pvRateAmount = liveData?.pvRateAmount || 40;
+
     // --- BV Data ---
     const currentMonthBv = liveData?.currentMonthBv || 0;
     const lifetimeBv = liveData?.lifetimeBv || 0;
@@ -70,9 +76,10 @@ export default function FranchisePayout() {
     const pvEstTds = pvEstimates.estimatedTdsCharge || 0;
     const pvEstNet = pvEstimates.estimatedNetPayout || 0;
 
-    // Filter history by type
-    const bvHistory = history.filter(p => (p.payoutType || 'BV') === 'BV');
-    const pvHistory = history.filter(p => p.payoutType === 'PV');
+    // Filter history by type AND exclude overridden records (Masters)
+    const visibleHistory = history.filter(p => p.status !== 'overridden');
+    const bvHistory = visibleHistory.filter(p => (p.payoutType || 'BV') === 'BV');
+    const pvHistory = visibleHistory.filter(p => p.payoutType === 'PV');
 
     const renderMetricCard = (
         label: string,
@@ -178,11 +185,16 @@ export default function FranchisePayout() {
                 </div>
                 <div className="flex gap-2 self-start">
                     <Badge variant="outline" className="text-sm border-teal-500/30 text-teal-600 bg-teal-500/10 px-3 py-1.5 shadow-sm">
-                        <IndianRupee className="h-3.5 w-3.5 mr-1" /> 10% of BV
+                        <IndianRupee className="h-3.5 w-3.5 mr-1" /> {bvRatePercent}% of BV
                     </Badge>
                     <Badge variant="outline" className="text-sm border-purple-500/30 text-purple-600 bg-purple-500/10 px-3 py-1.5 shadow-sm">
-                        <Zap className="h-3.5 w-3.5 mr-1" /> ₹40/PV
+                        <Zap className="h-3.5 w-3.5 mr-1" /> ₹{pvRateAmount}/PV
                     </Badge>
+                    {isMaster && (
+                        <Badge className="text-sm bg-amber-500/10 text-amber-700 border-amber-400 px-3 py-1.5 shadow-sm">
+                            MASTER
+                        </Badge>
+                    )}
                 </div>
             </div>
 
@@ -198,7 +210,7 @@ export default function FranchisePayout() {
                 {/* ── BV Repurchase Metrics ── */}
                 <div>
                     <p className="text-xs font-semibold text-teal-600 dark:text-teal-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                        <BarChart3 className="h-3.5 w-3.5" /> Repurchase BV (10% Payout)
+                        <BarChart3 className="h-3.5 w-3.5" /> Repurchase BV ({bvRatePercent}% Payout)
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                         {renderMetricCard("This Month BV", currentMonthBv.toLocaleString(), loadingLive, "border-teal-500/20")}
@@ -213,7 +225,7 @@ export default function FranchisePayout() {
                 {/* ── PV 1st Purchase Metrics ── */}
                 <div>
                     <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                        <ShoppingBag className="h-3.5 w-3.5" /> 1st Purchase PV (₹40/PV)
+                        <ShoppingBag className="h-3.5 w-3.5" /> 1st Purchase PV (₹{pvRateAmount}/PV)
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                         {renderMetricCard("This Month PV", currentMonthPv.toLocaleString(), loadingLive, "border-purple-500/20")}
@@ -238,6 +250,22 @@ export default function FranchisePayout() {
                     </Button>
                 </CardHeader>
                 <CardContent className="p-0">
+                    {isMaster && (
+                        <div className="mx-4 mt-4 p-4 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50">
+                            <div className="flex items-start gap-3">
+                                <Trophy className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                                <div>
+                                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">You're a Master Franchise!</p>
+                                    <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+                                        Your payouts are calculated at enhanced rates (<strong>15% BV / ₹50 PV</strong>) and processed through the Master Bonus Ledger. Standard 10% records do not apply to you.
+                                    </p>
+                                    <Link to="/franchise/master-payouts" className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-700 hover:text-amber-900 dark:text-amber-400 dark:hover:text-amber-200 underline underline-offset-2">
+                                        <Trophy className="h-3.5 w-3.5" /> View Master Bonus Ledger →
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <Tabs defaultValue="bv" className="w-full">
                         <div className="px-4 pt-4">
                             <TabsList className="grid w-full md:w-[360px] grid-cols-2">
