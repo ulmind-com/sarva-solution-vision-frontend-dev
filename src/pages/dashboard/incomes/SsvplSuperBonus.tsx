@@ -9,6 +9,7 @@ import { getSsvplSuperBonusStatus, getSsvplSuperBonusHistory, getSsvplSuperBonus
 
 export default function SsvplSuperBonus() {
     const [loading, setLoading] = useState(true);
+    const [estimateLoading, setEstimateLoading] = useState(true);
     const [historyData, setHistoryData] = useState<any[]>([]);
     const [statusData, setStatusData] = useState<any>(null);
     const [liveEstimate, setLiveEstimate] = useState<any>(null);
@@ -21,10 +22,10 @@ export default function SsvplSuperBonus() {
     const fetchData = async (page: number) => {
         setLoading(true);
         try {
-            const [statusRes, historyRes, estimateRes] = await Promise.allSettled([
+            // Phase 1: Fast APIs — status + history (instant)
+            const [statusRes, historyRes] = await Promise.allSettled([
                 getSsvplSuperBonusStatus(),
-                getSsvplSuperBonusHistory(page, 10),
-                getSsvplSuperBonusLiveEstimate()
+                getSsvplSuperBonusHistory(page, 10)
             ]);
 
             if (statusRes.status === 'fulfilled' && statusRes.value?.success) {
@@ -42,14 +43,23 @@ export default function SsvplSuperBonus() {
                     });
                 }
             }
-
-            if (estimateRes.status === 'fulfilled' && estimateRes.value?.success) {
-                setLiveEstimate(estimateRes.value.data);
-            }
         } catch (error) {
             console.error("Failed to fetch SSVPL Super Bonus data:", error);
         } finally {
             setLoading(false);
+        }
+
+        // Phase 2: Slow API — live estimate (loads in background)
+        setEstimateLoading(true);
+        try {
+            const estimateRes = await getSsvplSuperBonusLiveEstimate();
+            if (estimateRes?.success) {
+                setLiveEstimate(estimateRes.data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch live estimate:", error);
+        } finally {
+            setEstimateLoading(false);
         }
     };
 
@@ -84,7 +94,27 @@ export default function SsvplSuperBonus() {
             </div>
 
             {/* Live Pool & Earning Estimate */}
-            {liveEstimate && (
+            {estimateLoading ? (
+                <div className="space-y-4">
+                    <h2 className="text-lg font-semibold flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        Live Pool & Earning Estimate
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {[1, 2, 3, 4].map(i => (
+                            <Card key={i} className="glass premium-shadow border-primary/10">
+                                <CardContent className="pt-6">
+                                    <div className="flex items-center gap-2">
+                                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
+                                        <span className="text-sm text-muted-foreground">Calculating...</span>
+                                    </div>
+                                    <div className="h-8 mt-2 bg-muted/50 rounded animate-pulse" />
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            ) : liveEstimate && (
                 <div className="space-y-4">
                     <h2 className="text-lg font-semibold flex items-center gap-2">
                         <TrendingUp className="h-5 w-5 text-yellow-600" />

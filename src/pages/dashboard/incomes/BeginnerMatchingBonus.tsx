@@ -9,6 +9,7 @@ import { getBeginnerMatchingHistory, getBeginnerMatchingStatus, getBeginnerBonus
 
 export default function BeginnerMatchingBonus() {
     const [loading, setLoading] = useState(true);
+    const [estimateLoading, setEstimateLoading] = useState(true);
     const [historyData, setHistoryData] = useState<any[]>([]);
     const [statusData, setStatusData] = useState<any>(null);
     const [liveEstimate, setLiveEstimate] = useState<any>(null);
@@ -21,10 +22,10 @@ export default function BeginnerMatchingBonus() {
     const fetchData = async (page: number) => {
         setLoading(true);
         try {
-            const [statusRes, historyRes, estimateRes] = await Promise.allSettled([
+            // Phase 1: Fast APIs — status + history (instant)
+            const [statusRes, historyRes] = await Promise.allSettled([
                 getBeginnerMatchingStatus(),
-                getBeginnerMatchingHistory(page, 10),
-                getBeginnerBonusLiveEstimate()
+                getBeginnerMatchingHistory(page, 10)
             ]);
 
             if (statusRes.status === 'fulfilled' && statusRes.value?.success) {
@@ -43,14 +44,23 @@ export default function BeginnerMatchingBonus() {
                     });
                 }
             }
-
-            if (estimateRes.status === 'fulfilled' && estimateRes.value?.success) {
-                setLiveEstimate(estimateRes.value.data);
-            }
         } catch (error) {
             console.error("Failed to fetch Beginner Matching Bonus data:", error);
         } finally {
             setLoading(false);
+        }
+
+        // Phase 2: Slow API — live estimate (loads in background)
+        setEstimateLoading(true);
+        try {
+            const estimateRes = await getBeginnerBonusLiveEstimate();
+            if (estimateRes?.success) {
+                setLiveEstimate(estimateRes.data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch live estimate:", error);
+        } finally {
+            setEstimateLoading(false);
         }
     };
 
