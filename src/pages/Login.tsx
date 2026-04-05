@@ -54,51 +54,80 @@ const Login = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary p-12 flex-col justify-between">
-        <div>
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-800 to-green-950 p-12 flex-col justify-between relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-green-500/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+
+        <div className="relative z-10">
           <Link to="/" className="inline-block">
             <img 
               src="https://res.cloudinary.com/dkgwi1xvx/image/upload/v1769630007/sdfsdf_q4ziyu.png" 
               alt="Sarva Solution Vision" 
-              className="h-12 w-auto"
+              className="h-12 w-auto drop-shadow-md"
             />
           </Link>
-          <p className="text-primary-foreground/80 mt-2">Network Marketing Platform</p>
+          <p className="text-white/80 mt-2 text-lg font-medium">Premium Network Marketing Platform</p>
         </div>
-        
-        <div className="space-y-8">
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-primary-foreground/10 rounded-lg">
-              <TrendingUp className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-foreground">Grow Your Network</h3>
-              <p className="text-primary-foreground/70 text-sm">Build a powerful team and earn unlimited commissions</p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-primary-foreground/10 rounded-lg">
-              <Users className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-foreground">Binary System</h3>
-              <p className="text-primary-foreground/70 text-sm">Proven binary compensation plan for maximum earnings</p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-primary-foreground/10 rounded-lg">
-              <Wallet className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-foreground">Instant Payouts</h3>
-              <p className="text-primary-foreground/70 text-sm">Get your earnings directly to your bank account</p>
+
+        {/* Premium Photo Frame */}
+        <div className="relative z-20 w-max mx-auto my-4 lg:my-6">
+          {/* Outer elegant frame (Gold/Bronze effect) */}
+          <div className="p-[2px] bg-gradient-to-br from-amber-200 via-amber-500 to-amber-700 rounded-[10px] shadow-[0_15px_40px_rgba(0,0,0,0.3)]">
+            {/* Inner mount (White Passe-partout) */}
+            <div className="p-3 lg:p-4 bg-[#faf9f6] rounded-lg shadow-inner">
+              {/* Image Container with inner shadow */}
+              <div className="relative overflow-hidden rounded-sm shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)] border border-stone-300">
+                <img 
+                  src="/teamPhoto.png" 
+                  alt="Our Team" 
+                  className="w-full max-w-[280px] lg:max-w-[320px] xl:max-w-[400px] h-auto object-cover transform hover:scale-105 transition-transform duration-1000 ease-out"
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-center gap-2">
+                <div className="h-[1px] w-6 bg-amber-400/50"></div>
+                <p className="text-center font-bold text-stone-800 text-[10px] lg:text-xs tracking-[0.2em] uppercase">
+                  Leading The Future
+                </p>
+                <div className="h-[1px] w-6 bg-amber-400/50"></div>
+              </div>
             </div>
           </div>
         </div>
         
-        <p className="text-primary-foreground/60 text-sm">
+        <div className="space-y-4 relative z-10">
+          <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-lg hover:bg-white/10 transition-colors">
+            <div className="p-3 bg-white/20 rounded-xl shadow-inner">
+              <TrendingUp className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-lg">Grow Your Network</h3>
+              <p className="text-white/80 text-sm">Build a powerful team and earn unlimited commissions globally.</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-lg hover:bg-white/10 transition-colors">
+            <div className="p-3 bg-white/20 rounded-xl shadow-inner">
+              <Users className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-lg">Binary System</h3>
+              <p className="text-white/80 text-sm">Proven binary compensation plan designed for maximum earnings.</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-lg hover:bg-white/10 transition-colors">
+            <div className="p-3 bg-white/20 rounded-xl shadow-inner">
+              <Wallet className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-lg">Instant Payouts</h3>
+              <p className="text-white/80 text-sm">Get your earnings securely transferred directly to your bank account.</p>
+            </div>
+          </div>
+        </div>
+        
+        <p className="text-white/60 text-sm relative z-10 font-medium">
           © 2026 Sarva Solution Vision Pvt Ltd. All rights reserved.
         </p>
       </div>

@@ -1,11 +1,13 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import BannerPopup from '@/components/BannerPopup';
 import GallerySection from '@/components/GallerySection';
+import HeroSlider from '@/components/HeroSlider';
 import {
   Sprout,
   Fish,
@@ -67,85 +69,70 @@ const whyChooseUs = [
 ];
 
 const LandingPage = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navbar - Glassmorphism */}
-      <nav className="sticky top-0 z-50 glass border-b border-border/50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      {/* Animated Navbar */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out ${
+          isScrolled ? 'pt-4 px-4' : 'pt-6 px-4 md:px-8'
+        }`}
+      >
+        <div className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
+          isScrolled 
+            ? 'container max-w-5xl rounded-full bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-6 py-2' 
+            : 'container max-w-7xl rounded-full bg-black/20 dark:bg-black/40 hover:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md border border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] px-6 md:px-8 py-3'
+        }`}>
           <Link to="/" className="flex items-center gap-3">
             <img
               src="https://res.cloudinary.com/dkgwi1xvx/image/upload/v1769630007/sdfsdf_q4ziyu.png"
               alt="Sarva Solution Vision Logo"
-              className="h-12 w-auto"
+              className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12 drop-shadow-lg'} w-auto`}
             />
-            <span className="text-xl font-bold text-foreground hidden sm:block">Sarva Solution Vision</span>
+            <span className={`font-bold transition-colors hidden sm:block text-lg tracking-tight ${isScrolled ? 'text-foreground' : 'text-white drop-shadow-md'}`}>
+              Sarva Solution Vision
+            </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('home')} className="text-muted-foreground hover:text-foreground transition-colors">Home</button>
-            <button onClick={() => scrollToSection('about-future')} className="text-muted-foreground hover:text-foreground transition-colors">About</button>
-            <button onClick={() => scrollToSection('segments')} className="text-muted-foreground hover:text-foreground transition-colors">Segments</button>
-            <button onClick={() => scrollToSection('banking')} className="text-muted-foreground hover:text-foreground transition-colors">Bank Details</button>
-            <button onClick={() => scrollToSection('contact')} className="text-muted-foreground hover:text-foreground transition-colors">Contact</button>
+          <div className="hidden md:flex items-center gap-6">
+            <button onClick={() => scrollToSection('home')} className={`font-medium transition-colors text-sm ${isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white drop-shadow-sm'}`}>Home</button>
+            <button onClick={() => scrollToSection('about-future')} className={`font-medium transition-colors text-sm ${isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white drop-shadow-sm'}`}>About</button>
+            <button onClick={() => scrollToSection('segments')} className={`font-medium transition-colors text-sm ${isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white drop-shadow-sm'}`}>Segments</button>
+            <button onClick={() => scrollToSection('banking')} className={`font-medium transition-colors text-sm ${isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white drop-shadow-sm'}`}>Bank Details</button>
+            <button onClick={() => scrollToSection('contact')} className={`font-medium transition-colors text-sm ${isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white drop-shadow-sm'}`}>Contact</button>
           </div>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <div className={isScrolled ? '' : 'brightness-200 contrast-100 drop-shadow-md'}>
+              <ThemeToggle />
+            </div>
             <Link to="/login">
-              <Button className="font-semibold">
+              <Button className={`font-semibold rounded-full shadow-lg ${isScrolled ? 'bg-primary hover:bg-primary/90 text-primary-foreground' : 'bg-white hover:bg-gray-100 text-green-700 hover:text-green-800'}`}>
                 Member Login
               </Button>
             </Link>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden min-h-[90vh] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-900/90 via-green-800/80 to-emerald-700/70" />
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920)' }}
-        />
-        <div className="absolute top-20 right-10 w-72 h-72 bg-green-400/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl" />
-
-        <div className="container mx-auto px-6 py-24 md:py-32 relative z-10">
-          <motion.div
-            className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
-              Cultivating Health,{' '}
-              <span className="text-amber-300">Empowering People.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-              Building a sustainable future where organic living, Ayurvedic wellness, and modern entrepreneurship come together.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="font-semibold px-8 py-6 text-lg bg-amber-500 hover:bg-amber-600 text-black">
-                Explore Products
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Link to="/login">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="font-semibold px-8 py-6 text-lg bg-background/90 text-foreground border border-border hover:bg-background"
-                >
-                  Join Our Vision
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Slider Section */}
+      <HeroSlider />
 
       {/* About Our Future Section */}
       <section id="about-future" className="py-20 md:py-28 bg-muted/30">
